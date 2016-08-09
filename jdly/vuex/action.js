@@ -8,14 +8,10 @@ export const toggleContent = ({ dispatch }) =>{
 	dispatch('TOGGLE_CONTENT');
 }
 
-export const addCollection = ({ dispatch },data) =>{
-	dispatch('ADD_COLLECTION',data);
+export const toggleCollection = ({ dispatch },data) =>{
+	dispatch('TOGGLE_COLLECTION',data);
 }
 
-export const deleteCollection = ({ dispatch },pid) =>{
-	dispatch('DELECT_COLLECTION',pid);
-}
-
-export const setCurrentId = ({ dispatch },pid)=>{
-	dispatch('SET_CURRENT_ID',pid);
+export const setCurrentItem = ({ dispatch },data)=>{
+	dispatch('SET_CURRENT_ITEM',data);
 }

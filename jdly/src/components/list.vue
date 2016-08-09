@@ -1,11 +1,11 @@
 <template>
 	<div id="lists" v-el:lists @scroll="scrollLoadData(currentPage)">
-		<div class="item" v-for="item in listData" transition='slide' @click="toggleContent()&setCurrentId(item.pid)" >
+		<div class="item" v-for="item in listData" transition='slide' @click="toggleContent()&setCurrentItem(item)" >
 			<figure>
 				<img :src="item.imgSrc || 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='"  alt="">
 				<figcaption>
 					<span class="title">{{item.title}}</span>
-					<i class="icon-collection" :class="{checked:item.collected}"></i>
+					<i class="icon-collection" :class="{checked:item.collected}" @click.stop="toggleCollection(item)"></i>
 				</figcaption>
 			</figure>
 		</div>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-	import {toggleContent,setCurrentId} from '../../vuex/action';
+	import {toggleContent,setCurrentItem,toggleCollection} from '../../vuex/action';
 	// 当前是否在加载
 	let IS_LOADING = false;
 	// 是否还有数据
@@ -40,10 +40,23 @@
 							HAS_DATA = false;
 							return false;
 						}
-						this.listData = this.listData.concat(result.data);
 						IS_LOADING = false;
 						this.currentPage++;
 						
+						// 判断数据是否已经收藏
+						for(let i=0,j=result.data.length;i<j;i++){
+							let res = result.data[i];
+							
+							this.collections.forEach(item =>{
+								// 如果已收藏
+								if(res.pid == item.pid){
+									res.collected = true;
+								}
+								
+							});
+						}
+						// 保存数据
+						this.listData = this.listData.concat(result.data);
 					},function(err){
 						console.log(err);
 					});
@@ -68,11 +81,13 @@
 		vuex:{
 			getters:{
 				showContent : state => state.showContent,
-				currentContentId : state => state.currentContentId
+				currentContent : state => state.currentContent,
+				collections : state => state.collections
 			},
 			actions:{
 				toggleContent,
-				setCurrentId
+				setCurrentItem,
+				toggleCollection
 			}
 		}
 	};

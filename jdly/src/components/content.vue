@@ -2,19 +2,19 @@
 	<div id="content" v-if="showContent" transition="slide" >
 		<header class="head">
 			<i class="icon-back" @click="toggleContent"></i>
-			<h2>{{content.title}}</h2>
-			<i class="icon-collection white" :class="{checked:content.collected}"></i>
+			<h2>{{currentContent.title}}</h2>
+			<i class="icon-collection white" :class="{checked:currentContent.collected}" @click="toggleCollection(currentContent)"></i>
 		</header>
 		<div class="lists">
 			<div class="item" v-for="img in content.imgLists" track-by="$index">
-				<img :src="img">
+				<img :src="img" :alt="content.title">
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-	import {toggleContent} from '../../vuex/action';
+	import {toggleContent,toggleCollection} from '../../vuex/action';
 
 	const WEBSIT = 'http://114.112.24.89:3001/api/';
 
@@ -30,14 +30,14 @@
 			}
 		},
 		watch:{
-			'currentContentId':function(){
+			'currentContent':function(){
 				this.content={
 					title:'',
 					pid:'',
 					imgLists:[],
 					collected:false
 				};
-				this.$http.get(`${WEBSIT}inner?id=${this.currentContentId}`)
+				this.$http.get(`${WEBSIT}inner?id=${this.currentContent.pid}`)
 					.then(function(result){
 						let data = result.data;
 						this.content ={
@@ -55,10 +55,11 @@
 		vuex:{
 			getters:{
 				showContent : state => state.showContent,
-				currentContentId : state => state.currentContentId
+				currentContent: state => state.currentContent
 			},
 			actions:{
-				toggleContent
+				toggleContent,
+				toggleCollection
 			}
 		}
 	}

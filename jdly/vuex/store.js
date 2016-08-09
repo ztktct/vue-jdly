@@ -12,13 +12,13 @@ Vue.use(Vuex);
 const state = {
     showNave: false,    // 左侧导航存储状态，用于控制导航条
     showContent:false,  // 内容展示状态，用于控制详情页
-    currentContentId:'',  // 当前浏览的页面ID
+    currentContent:{},  // 当前浏览的页面
     collections: []
 };
 
 // 如果已有收藏，则获取
 localStorage.getItem("collections") ?
-    state.collectItems = JSON.parse(localStorage.getItem("collections")) : false;
+    state.collections = JSON.parse(localStorage.getItem("collections")) : [];
 
 // 修改状态的事件回调函数
 const mutations = {
@@ -30,8 +30,8 @@ const mutations = {
     TOGGLE_CONTENT:function(state){
         state.showContent = !state.showContent;
     },
-    // 收藏 (未实现)
-    ADD_COLLECTION(state, data) {
+    // 切换收藏与取消收藏
+    TOGGLE_COLLECTION(state, data){
         // data 是收藏的项目
         // {
         //      imgSrc:'',
@@ -39,23 +39,28 @@ const mutations = {
         //      title:'',
         //      collected:true
         // }
-        state.collections.push(data);
-        localStorage.setItem("collections", JSON.stringify(state.collections));
-    },
-    // 取消收藏 (未实现)
-    DELECT_COLLECTION(state, pid) {
+        let hasAlready = false; // 是否已有该收藏？
+        
         state.collections.forEach((item, index) => {
-            if (item.pid === pid) {
+            // 如果已有该收藏
+            if (item.pid === data.pid ) {
+                data.collected = false;
                 state.collections.$remove(item);
+                hasAlready = true;
                 return;
             }
         });
+        // 如果没有该收藏
+        if(!hasAlready){
+            data.collected = true;
+            state.collections.push(data);
+        }
         localStorage.setItem("collections", JSON.stringify(state.collections));
     },
 
     // 设置当前浏览的页面的ID
-    SET_CURRENT_ID(state,pid){
-        state.currentContentId = pid;
+    SET_CURRENT_ITEM(state,data){
+        state.currentContent = data;
     }
 
 }
