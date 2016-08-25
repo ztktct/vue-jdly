@@ -1,7 +1,7 @@
 <template>
 	<header class="normal-header">
 		<i class="icon-back" @click="goback"></i>
-		<h2>{{currentPage.title || '我的收藏'}}</h2>
+		<h2>{{isContent == 1 ? currentPage.title : '我的收藏'}}</h2>
 		<!-- 如果是详情页则显示,0为不显示，1为详情页,显示 -->
 		<i class="icon-collection white" :class="{checked:currentPage.collected}" v-if="isContent == 1"></i>
 	</header>

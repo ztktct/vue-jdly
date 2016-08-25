@@ -7,12 +7,10 @@
 			</div>
 		</div>
 	</div>
-	
 </template>
 
 <script>
 	import jdlyHeader from '../components/header';
-
 	export default{
 		data(){
 			return{

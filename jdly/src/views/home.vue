@@ -1,17 +1,18 @@
 <template>
 	<div class="home-header">
-		<img src="../assets/logo.png" alt="">
+		<img :src="logo" alt="">
 		<a href="#showCollections" class="collections">收藏</a>
 	</div>
 	<jdly-list></jdly-list>
 </template>
 
 <script>
-import jdlyList from '../components/lists';
+	import jdlyList from '../components/lists';
+	let imgsrc = require('../assets/logo.png');
 	export default{
 		data(){
 			return{
-
+				logo:imgsrc
 			}
 		},
 		components:{

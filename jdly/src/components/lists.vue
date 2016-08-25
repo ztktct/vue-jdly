@@ -1,5 +1,5 @@
 <template>
-	<div class="lists" v-el:lists @scroll="scrollLoadData">
+	<div class="normal-lists" v-el:lists @scroll="scrollLoadData">
 		<div class="lists-item" transition="slideup" v-for="item in listsData">
 			<figure @click="showContent(item)">
 				<div class="imgwrap">
@@ -93,38 +93,3 @@ import {addAndRemoveCollect,setCurrentPage} from '../vuex/action';
 			});
 	}
 </script>
-
-<style lang="scss" scoped>
-	.lists{
-		padding-top:64px;
-		display:flex;
-		flex-wrap:wrap;
-		height:100%;
-		overflow:auto;
-	}
-	.lists-item{
-		width:50%;
-		padding:5px;
-		figure{
-			border:1px solid #ccc;
-			padding:8px;
-			border-radius:5px;
-		}
-		figcaption{
-			display:flex;
-			align-items:center;
-			justify-content:space-between;
-			padding-top:10px;
-			font-size:14px;
-			p{
-				margin:0;
-				flex:1;
-				padding-right:5px;
-				white-space:nowrap;
-				overflow:hidden;
-				text-overflow:ellipsis;
-			}
-		}
-	}
-
-</style>

@@ -129,4 +129,37 @@
 		top:0;
 		background:#fff;
 	}
+
+	// 列表页
+	.normal-lists{
+		padding-top:64px;
+		display:flex;
+		flex-wrap:wrap;
+		height:100%;
+		overflow:auto;
+		.lists-item{
+			width:50%;
+			padding:5px;
+			figure{
+				border:1px solid rgba(pink,.8);
+				padding:8px;
+				border-radius:5px;
+			}
+			figcaption{
+				display:flex;
+				align-items:center;
+				justify-content:space-between;
+				padding-top:10px;
+				font-size:14px;
+				p{
+					margin:0;
+					flex:1;
+					padding-right:5px;
+					white-space:nowrap;
+					overflow:hidden;
+					text-overflow:ellipsis;
+				}
+			}
+		}
+	}
 </style>

@@ -1,5 +1,6 @@
 <template>
 	<jdly-home></jdly-home>
+	<jdly-collections v-if="showCollect" transition="slideleft"></jdly-collections>
 	<jdly-content v-if="showContent" transition="slideleft"></jdly-content>
 </template>
 
@@ -8,6 +9,7 @@
 	import style from './components/styles';
 	import jdlyHome from './views/home';
 	import jdlyContent from './views/content';
+	import jdlyCollections from './views/collections';
 	import {toggleCollections,toggleContent} from './vuex/action';
 
 	export default{
