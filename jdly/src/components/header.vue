@@ -1,59 +1,44 @@
 <template>
-    <header>
-        <button class="menu" @click ="toggleNav">
-            <span class="menu-bar"></span>
-            <span class="menu-bar"></span>
-            <span class="menu-bar"></span>
-        </button>
-        <a href="/"><img src="../assets/logo.png" alt="绝对领域"></a>
-    </header>
+	<header class="normal-header">
+		<i class="icon-back" @click="goback"></i>
+		<h2>{{currentPage.title || '我的收藏'}}</h2>
+		<!-- 如果是详情页则显示,0为不显示，1为详情页,显示 -->
+		<i class="icon-collection white" :class="{checked:currentPage.collected}" v-if="isContent == 1"></i>
+	</header>
 </template>
 
 <script>
-    import {toggleNav} from '../../vuex/action';
-    export default {
-        vuex:{
-            actions:{
-                toggleNav
-            }
-        }
-    }
+	// action
+	import {toggleContent,toggleCollections,addAndRemoveCollect} from '../vuex/action.js';
+
+	export default{
+		data(){
+			return{
+
+			}
+		},
+		props:['isContent'],
+		methods:{
+			// 返回上一页
+			goback:function(){
+				window.history.go(-1);
+			}
+		},
+		vuex:{
+			getters:{
+				showCollect: state => state.showCollect,
+				showContent: state => state.showContent,
+				currentPage: state => state.currentPage
+			},
+			actions:{
+				toggleCollections,		// 切换显示收藏页
+				toggleContent,			// 切换显示详情页
+				addAndRemoveCollect		// 收藏与取消收藏
+			}
+		}
+	}
 </script>
 
-<style scoped lang="scss">
-    header{
-        display:flex;
-        position:relative;
-        z-index:4;
-        justify-content:center;
-        align-items:center;
-        padding:10px;
-        position:relative;
-        box-shadow:0 0 5px #333;
-        position:fixed;
-        top:0;
-        right:0;
-        left:0;
-        height:67px;
-        background:#fff;
-    }
-    .menu{
-        border:1px solid #333;
-        background:#fff;
-        width:30px;
-        padding:5px;
-        position:absolute;
-        left:20px;
-        top:50%;
-        transform:translateY(-60%);
-        border-radius:3px;
-    }
-    .menu-bar{
-        display:block;
-        height:2px;
-        background:#666;
-        &:not(:first-child){
-            margin-top:5px;
-        }
-    }
+<style lang="scss">
+
 </style>

@@ -1,52 +1,58 @@
 <template>
-  <jdly-header></jdly-header>
-  <jdly-nav></jdly-nav>
-  <jdly-lists></jdly-lists>
-  <jsly-content></jsly-content>
+	<jdly-home></jdly-home>
+	<jdly-content v-if="showContent" transition="slideleft"></jdly-content>
 </template>
 
 <script>
-import jdlyHeader from './components/header';
-import jdlyNav from './components/nav';
-import jdlyLists from './components/list';
-import jslyContent from './components/content';
+	// 引入基础样式
+	import style from './components/styles';
+	import jdlyHome from './views/home';
+	import jdlyContent from './views/content';
+	import {toggleCollections,toggleContent} from './vuex/action';
 
-export default {
-  components: {
-    jdlyHeader,
-    jdlyNav,
-    jdlyLists,
-    jslyContent
-  }
-}
+	export default{
+		components:{
+			jdlyHome,
+			jdlyContent
+		},
+		vuex:{
+			getters:{
+				showCollect : state => state.showCollect,
+				showContent : state => state.showContent,
+			},
+			actions:{
+				toggleCollections,
+				toggleContent
+			}
+		},
+		ready(){
+			let _self = this;
+			location.hash='';
+			// 监听hashchange事件
+			window.addEventListener('hashchange',()=>{
+				let hashArr = location.hash.split('#');
+				let hash = hashArr.length >1 ? hashArr[1] : hashArr[0];
+				
+				switch(hash){
+					// 切换到收藏页面
+					case 'showCollections':
+						_self.toggleCollections(true);
+						break;
+					// 切换到详情页面
+					case 'showContent':
+						_self.toggleContent(true);
+						break;
+					// 首页
+					default:
+						_self.toggleCollections(false);
+						_self.toggleContent(false);
+						break;
+				}
+			});
+		}
+	}
 </script>
 
-<style lang="scss">
-  *{
-    box-sizing: border-box;
-  }
-  html,body{
-    height: 100%;
-    overflow: hidden;
-  }
-  .icon-collection{
-    display:inline-block;
-    width:18px;
-    height:18px;
-    background:url('assets/icon_favorite_grey.png') no-repeat center center;
-    background-size:contain;
-    &.white{
-      background-image:url('assets/icon_favorite_white.png');
-    }
-    &.checked{
-      background-image:url('assets/icon_favorite.png');
-    }
-  }
-  .icon-back{
-    display:inline-block;
-    width:18px;
-    height:18px;
-    background:url('assets/left.png') no-repeat center center;
-    background-size:contain;
-  }
+<style>
+
 </style>

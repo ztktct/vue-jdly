@@ -10,10 +10,10 @@ Vue.use(Vuex);
 
 // 应用级别的状态对象
 const state = {
-    showNave: false,    // 左侧导航存储状态，用于控制导航条
-    showContent:false,  // 内容展示状态，用于控制详情页
-    currentContent:{},  // 当前浏览的页面
-    collections: []
+	showCollect:false,	// 显示收藏页
+	showContent:false,	// 显示详情页
+	collections:[],		// 存放收藏
+	currentPage:{}		// 当前页面的数据，title,id
 };
 
 // 如果已有收藏，则获取
@@ -21,28 +21,27 @@ localStorage.getItem("collections") ?
     state.collections = JSON.parse(localStorage.getItem("collections")) : [];
 
 // 修改状态的事件回调函数
-const mutations = {
-    // 切换导航栏的状态，显示||隐藏
-    TOGGLE_NAV(state) {
-        state.showNave = !state.showNave;
-    },
-    // 切换详情页的状态，显示||隐藏
-    TOGGLE_CONTENT:function(state){
-        state.showContent = !state.showContent;
-    },
-    // 切换收藏与取消收藏
-    TOGGLE_COLLECTION(state, data){
-        // data 是收藏的项目
-        // {
-        //      imgSrc:'',
-        //      pid:'',
-        //      title:'',
-        //      collected:true
-        // }
-        let hasAlready = false; // 是否已有该收藏？
-        
-        state.collections.forEach((item, index) => {
-            // 如果已有该收藏
+const mutations={
+	// 切换显示收藏页
+	TOGGLE_COLLECTIONS(state,status){
+		state.showCollect = status;
+	},
+	// 切换详情页
+	TOGGLE_CONTENT(state,status){
+		state.showContent = status;
+	},
+	// 收藏与取消收藏
+	ADD_AND_REMOVE_COLLECT(state,data){
+		// data={
+		// 		imgSrc:'',
+		// 		id:'',
+		// 		title:'',
+		// 		collected:true
+		// }
+		
+		let hasAlready = false;	// 是否已有该收藏
+		state.collections.forEach((item, index) => {
+            // 如果已有该收藏，则移除
             if (item.pid === data.pid ) {
                 data.collected = false;
                 state.collections.$remove(item);
@@ -56,14 +55,12 @@ const mutations = {
             state.collections.push(data);
         }
         localStorage.setItem("collections", JSON.stringify(state.collections));
-    },
-
-    // 设置当前浏览的页面的ID
-    SET_CURRENT_ITEM(state,data){
-        state.currentContent = data;
-    }
-
-}
+	},
+	// 设置当前页面数据
+	SET_CURRENT_PAGE(state,data){
+		state.currentPage = data;
+	}
+};
 
 export default new Vuex.Store({
     state,

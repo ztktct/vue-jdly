@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.all('*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    next();
+	next();
 }); 
 
 // 接受http请求为'/'时，渲染index页面
@@ -33,6 +33,7 @@ app.get('/',(req,res)=>{
 });
 
 // 首页列表数据
+// /api/index?page=2&type=''
 app.get('/api/index',(req,res)=>{
 	// req.query   get
 	// req.body    post
@@ -40,7 +41,7 @@ app.get('/api/index',(req,res)=>{
 	// 查询字符串：
 	// page参数：第几页
 	// type参数：分类
-
+	// type居然不能用，禁止爬虫爬取。。。。
 	let page = req.query.page;
 	let type = req.query.type;
 	page = !page || page == 1 ? '' : 'page/'+ page +'/' ;
@@ -68,6 +69,7 @@ app.get('/api/index',(req,res)=>{
 });
 
 // 获取内页数据
+// /api/inner?id=1213
 app.get('/api/inner',(req,res)=>{
 	let id = req.query.id;
 	loadHtml(WEBSIT_PREFIX+id+'/')
