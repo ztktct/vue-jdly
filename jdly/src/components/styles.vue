@@ -108,6 +108,9 @@
 			flex:1;
 			text-align:center;
 			font-size:17px;
+			overflow:hidden;
+			white-space:nowrap;
+			text-overflow:ellipsis;
 		}
 	}
 

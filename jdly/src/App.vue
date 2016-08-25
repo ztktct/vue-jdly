@@ -15,7 +15,8 @@
 	export default{
 		components:{
 			jdlyHome,
-			jdlyContent
+			jdlyContent,
+			jdlyCollections
 		},
 		vuex:{
 			getters:{
@@ -39,6 +40,7 @@
 					// 切换到收藏页面
 					case 'showCollections':
 						_self.toggleCollections(true);
+						_self.toggleContent(false);
 						break;
 					// 切换到详情页面
 					case 'showContent':
