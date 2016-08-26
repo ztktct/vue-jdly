@@ -30,6 +30,13 @@
 	}
 
 	// 动画
+	@keyframes fadeIn{
+		from{opacity:0;}
+		to{opacity:1;}
+	}
+	img[imgloaded]{
+		animation:fadeIn .5s ease;
+	}
 	// 渐显
 	.opacity-transition{
 		opacity:1;
@@ -147,6 +154,9 @@
 				border:1px solid rgba(pink,.8);
 				padding:8px;
 				border-radius:5px;
+				img{
+					width:100%;
+				}
 			}
 			figcaption{
 				display:flex;

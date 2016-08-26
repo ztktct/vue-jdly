@@ -3,7 +3,7 @@
 		<div class="lists-item" transition="slideup" v-for="item in listsData">
 			<figure @click="showContent(item)">
 				<div class="imgwrap">
-					<img :src="item.imgSrc" alt="item.title">
+					<img data-src="{{item.imgSrc}}" >
 				</div>
 				<figcaption>
 					<p>{{item.title}}</p>
@@ -21,8 +21,10 @@
 
 <script>
 
-import {addAndRemoveCollect,setCurrentPage} from '../vuex/action';
+	import {addAndRemoveCollect,setCurrentPage} from '../vuex/action';
+	import Lazyload from '../assets/lazyload';
 
+	let imgload =null;
 	export default{
 		data(){
 			return{
@@ -62,12 +64,21 @@ import {addAndRemoveCollect,setCurrentPage} from '../vuex/action';
 		},
 		ready(){
 			// 第一页数据
-			getListsData(this);
+			getListsData(this,function(){
+				imgload = null;
+				setTimeout(function(){
+					imgload = new Lazyload({
+						attr:'data-src',
+						wrap:'.normal-lists',
+						watch:true
+					});
+				},5);
+			});
 		}
 	}
 
 	// 得到第几页的数据
-	function getListsData(vm){
+	function getListsData(vm,cb){
 		vm.$http.get('http://114.112.24.89:3001/api/index?page='+ vm.page)
 			.then( results =>{
 				let lists = results.data;
@@ -89,7 +100,9 @@ import {addAndRemoveCollect,setCurrentPage} from '../vuex/action';
 				}else{
 					vm.hasData = false;
 				}
-				
+				cb && cb();
 			});
 	}
 </script>
+
+

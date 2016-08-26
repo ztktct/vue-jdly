@@ -3,7 +3,7 @@
 		<jdly-header is-content='1'></jdly-header>
 		<div class="content-lists">
 			<div class="item" v-for="item in imgLists">
-				<img :src="item" alt="">
+				<img data-src="{{item}}" alt="">
 			</div>
 		</div>
 	</div>
@@ -11,6 +11,10 @@
 
 <script>
 	import jdlyHeader from '../components/header';
+	import Lazyload from '../assets/lazyload';
+
+	let imgload = null;
+
 	export default{
 		data(){
 			return{
@@ -22,19 +26,29 @@
 		},
 		vuex:{
 			getters:{
-				currentPage: state => state.currentPage
+				currentPage: state => state.currentPage,
+				showContent: state => state.showContent
 			}
 		},
 		ready(){
-			loadContent(this);
+			loadContent(this,function(){
+				imgload = null;
+				setTimeout(function(){
+					imgload = new Lazyload({
+						attr:'data-src',
+						wrap:'.content-lists'
+					});
+				},5);
+			});
 		}
 	}
 
 	// 加载详情页
-	function loadContent(vm){
+	function loadContent(vm,cb){
 		vm.$http.get('http://114.112.24.89:3001/api/inner?id='+vm.currentPage.pid)
 			.then( results =>{
 				vm.imgLists = results.data.imgLists;
+				cb && cb();
 			});
 	}
 </script>
@@ -52,6 +66,8 @@
 		overflow:auto;
 		img{
 			margin-bottom:5px;
+			width:100%;
 		}
 	}
+	
 </style>
