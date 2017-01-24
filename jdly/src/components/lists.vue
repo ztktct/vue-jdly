@@ -3,7 +3,7 @@
 		<div class="lists-item" transition="slideup" v-for="item in listsData">
 			<figure @click="showContent(item)">
 				<div class="imgwrap">
-					<img data-src="{{item.imgSrc}}" >
+					<img data-src="{{item.imgSrc}}" style="opacity: .01">
 				</div>
 				<figcaption>
 					<p>{{item.title}}</p>
@@ -79,7 +79,7 @@
 
 	// 得到第几页的数据
 	function getListsData(vm,cb){
-		vm.$http.get('http://114.112.24.89:3001/api/index?page='+ vm.page)
+		vm.$http.get('http://localhost:3001/api/index?page='+ vm.page)
 			.then( results =>{
 				let lists = results.data;
 				if(lists.length > 0){

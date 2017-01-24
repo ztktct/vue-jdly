@@ -45,7 +45,7 @@
 
 	// 加载详情页
 	function loadContent(vm,cb){
-		vm.$http.get('http://114.112.24.89:3001/api/inner?id='+vm.currentPage.pid)
+		vm.$http.get('http://localhost:3001/api/inner?id='+vm.currentPage.pid)
 			.then( results =>{
 				vm.imgLists = results.data.imgLists;
 				cb && cb();
