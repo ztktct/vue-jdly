@@ -1,7 +1,7 @@
 <template>
 	<div class="home-header">
 		<img :src="logo" alt="" style="opacity:0">
-		<a href="#showCollections" class="collections">收藏</a>
+		<a href="#showCollections" class="collections">收藏s</a>
 	</div>
 	<jdly-list></jdly-list>
 </template>
