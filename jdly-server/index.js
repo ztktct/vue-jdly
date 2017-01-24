@@ -34,7 +34,7 @@ app.get('/',(req,res)=>{
 
 // 首页列表数据
 // /api/index?page=2&type=''
-app.get('/api/index',(req, res)=>{
+app.get('/api/index',(req,res)=>{
 	// req.query   get
 	// req.body    post
 
